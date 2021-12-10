@@ -36,8 +36,10 @@ class UserController(val userService: UserService) {
     }
 
     @PutMapping("/{id}")
-    fun updateUser() {
-
+    fun updateUser(@PathVariable id: Long, @RequestBody @Valid user: User): ResponseEntity<User> {
+        val user1 = userService.updateUser(id, user)
+        return if (nonNull(user1)) ResponseEntity(user1, HttpStatus.OK)
+        else ResponseEntity.badRequest().build()
     }
 
     @DeleteMapping("/{id}")
